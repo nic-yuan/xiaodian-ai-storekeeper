@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>「小店 AI 店长」· 解决方案说明</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin:0; padding:0; background:#f6f7f9; color:#1f2328;
+  font-family:"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
+  line-height:1.75; font-size:16px; }
+main { max-width:860px; margin:0 auto; padding:48px 24px 80px;
+  background:#ffffff; min-height:100vh;
+  box-shadow:0 0 0 1px #e5e7eb; }
+h1 { font-size:1.7em; border-bottom:2px solid #1f6feb; padding-bottom:.4em; }
+h2 { font-size:1.35em; border-bottom:1px solid #d8dee4; padding-bottom:.3em; margin-top:2em; }
+h3 { font-size:1.1em; margin-top:1.6em; }
+blockquote { margin:1em 0; padding:.6em 1em; background:#f0f6ff;
+  border-left:4px solid #1f6feb; color:#3b434b; border-radius:0 8px 8px 0; }
+table { border-collapse:collapse; width:100%; margin:1em 0; font-size:.94em; display:block; overflow-x:auto; }
+th { background:#eef1f4; }
+th, td { border:1px solid #d8dee4; padding:8px 12px; text-align:left; vertical-align:top; }
+tr:nth-child(even) td { background:#fafbfc; }
+code { background:#f0f2f4; padding:.15em .4em; border-radius:4px; font-size:.9em; }
+pre { background:#f6f8fa; padding:1em; border-radius:8px; overflow-x:auto; }
+pre code { background:none; padding:0; }
+hr { border:none; border-top:1px solid #e5e7eb; margin:2.4em 0; }
+a { color:#1f6feb; }
+strong { color:#111; }
+.footer { text-align:center; color:#8b949e; font-size:.85em; padding:24px 0 40px; }
+</style>
+</head>
+<body>
+<main>
+<h1>「小店 AI 店长」· 零售行业智能体征集 · 解决方案说明 v0.1</h1>
+<blockquote>
+<p>参赛平台：扣子（coze.cn）智能体平台 ｜ 技术方向：软件与 AI 智能体
+（初芯版同步搭建，作为平台适配备份）
+适配场景：经营风险智能诊断（主）／门店智能陈列巡检（次）
+版本：2026-11-05（提交前定稿）</p>
+</blockquote>
+<hr />
+<h2>〇、一页读懂</h2>
+<ul>
+<li><strong>作品名称</strong>：小店 AI 店长</li>
+<li><strong>一句话</strong>：把「会经营的那个人」做成 AI——社区小店用一部手机、说几句话，就能完成巡店、算账、卖货，每周拿到一份经营体检报告。</li>
+<li><strong>技术路径</strong>：扣子智能体（对话入口 + 问答）+ 知识库（检查项/缺陷分级/报告模板）+ 视觉多模态（拍照巡店）+ 快捷指令（一键诊断）。初芯版本同步搭建，架构一致、知识库可直接迁移。</li>
+<li><strong>落地对象</strong>：同福集团等供应链企业、连锁零售品牌，由其带着门店网络批量落地。</li>
+<li><strong>演示链接</strong>：（待填，初芯智能体发布地址）</li>
+</ul>
+<hr />
+<h2>一、针对谁</h2>
+<h3>1.1 三层用户</h3>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>是谁</th>
+<th>他们的痛</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>直接使用者</td>
+<td>社区小店 / 夫妻店 店主、店长</td>
+<td>不会看（不知道店里哪里有问题）、不会算（不知道进什么进多少）、不会卖（不会做活动）、没时间</td>
+</tr>
+<tr>
+<td>买单方 / 渠道</td>
+<td>同福集团等供应链企业、连锁零售品牌</td>
+<td>想赋能海量合作小店，但人工巡店贵、标准落不下去、没法一对一带</td>
+</tr>
+<tr>
+<td>生态</td>
+<td>初芯平台、人民网</td>
+<td>需要可复制、可推广、服务实体经济的零售智能体样本</td>
+</tr>
+</tbody>
+</table>
+<h3>1.2 核心判断</h3>
+<p>小店缺的不是一套系统，而是<strong>一个会经营的人</strong>。SaaS 给小店的是报表，小店看不懂也不会用；AI 店长给的是<strong>结论和动作</strong>：「这排货架缺 3 个单品，今天补」「这 12 件鲜食 3 天内到期，建议这样促销」。</p>
+<blockquote>
+<p>呼应同福集团总裁刘辉在 2026-10-10 金台圆桌会上的判断：小店最关心的是「成本怎么控、商品怎么选、货源怎么保障、经营效率能否提升」，技术价值「不在于功能有多复杂，而在于能否帮经营者更好地选品、管货、服务顾客」。</p>
+</blockquote>
+<hr />
+<h2>二、做什么：1 个入口 + 3 个动作 + 1 份报告</h2>
+<h3>2.1 入口：对话式 AI 店长</h3>
+<p>小店店主打开就能用，不需要培训、不需要装设备。语音或文字说一句「帮我看看今天店里有什么问题」，或直接拍照。</p>
+<h3>2.2 动作一：AI 巡店（看成什么样）</h3>
+<ul>
+<li>店主拍货架、价签、冷柜、后仓照片（或口述）</li>
+<li>AI 识别：缺货空置、价签不符、陈列错位、临期/过期、卫生与安全项</li>
+<li>输出：<strong>整改清单</strong>（问题 + 证据 + 标准要求 + 整改期限 + 复查项）</li>
+</ul>
+<h3>2.3 动作二：AI 算账（该进什么、进多少）</h3>
+<ul>
+<li>输入：一周销量、库存（表格导入或口述）</li>
+<li>输出：<strong>补货建议单</strong>（按动销、保质期、天气/节假日）、<strong>选品建议</strong>（爆品清单 + 毛利结构）、<strong>定价建议</strong>（引流款/利润款）</li>
+<li>数据来源：同福商品库 + 门店导出的进销存表格</li>
+</ul>
+<h3>2.4 动作三：AI 卖货（怎么把它卖掉）</h3>
+<ul>
+<li>输入：临期清单 / 活动目标</li>
+<li>输出：<strong>临期促销方案、社群话术、海报文案、活动方案</strong></li>
+</ul>
+<h3>2.5 交付物：每周经营体检报告</h3>
+<p>红黄绿灯总分 + 3 条最该改的问题 + 整改清单 + 下周动作。这是小店「看得见」的价值，也是总部「管得住」的抓手。</p>
+<h3>2.6 闭环</h3>
+<pre><code>拍/说/导表格 → AI 诊断（知识库对照）→ 报告与清单 → 店主整改 → 复查 → 下周报告
+</code></pre>
+<hr />
+<h2>三、适配场景（对应征集表勾选项）</h2>
+<table>
+<thead>
+<tr>
+<th>勾选</th>
+<th>场景</th>
+<th>在本作品中的角色</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅ 主</td>
+<td>经营风险智能诊断</td>
+<td>作品主线：AI 巡店 + 经营数据分析 + 风险预警 + 咨询答疑 + 诊断报告</td>
+</tr>
+<tr>
+<td>✅ 次</td>
+<td>门店智能陈列巡检</td>
+<td>用手机拍照实现，零硬件；作为诊断的输入模块</td>
+</tr>
+<tr>
+<td>◻ 可选扩展</td>
+<td>智能选品与动态定价、一站式营销助手</td>
+<td>同一知识库上的后续能力，说明文档写进路线图</td>
+</tr>
+<tr>
+<td>✖ 不选</td>
+<td>自助收银、智能安防预警、多元业态自助</td>
+<td>硬件/终端方向，不属于本作品</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>评审看「技术能否真正用起来」，所以场景勾选<strong>宁精不多</strong>：主场景讲透，扩展场景讲清路径。</p>
+</blockquote>
+<hr />
+<h2>四、技术路径</h2>
+<h3>4.1 平台组件（扣子实现）</h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>承担什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>智能体</td>
+<td>统一入口：对话、问答、引导输入、组织输出</td>
+</tr>
+<tr>
+<td>知识库</td>
+<td>检查项与判定标准、缺陷分级与整改模板、诊断报告模板（可替换为客户/同福的自有标准）</td>
+</tr>
+<tr>
+<td>视觉多模态</td>
+<td>照片识别货架排面、价签、效期标识；看不清时要求重拍，不猜测</td>
+</tr>
+<tr>
+<td>快捷指令</td>
+<td>一键诊断 / 拍照巡店 / 出整改清单，降低使用门槛</td>
+</tr>
+<tr>
+<td>参数控制</td>
+<td>温度 0.3 + 最大回复长度拉满，保证报告可复现、不截断</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>初芯版本同步搭建：同一套提示词与知识库可直接迁移，说明方案不绑定单一平台；评分与报告逻辑保持一致。</p>
+</blockquote>
+<h3>4.2 关键设计</h3>
+<ol>
+<li><strong>证据链</strong>：每条结论必须对应「检查项 + 证据 + 标准要求」，可追溯；无证据判「待补充」，不编造。</li>
+<li><strong>确定性评分</strong>：单检查点扣分规则固定（符合 0 / 轻微 10 / 严重 25），总分与红黄绿灯可复算。</li>
+<li><strong>固定模板</strong>：报告结构固定，不因模型波动而变。</li>
+<li><strong>人工复核开关</strong>：前 10 份报告由人工复核后发出，保证产品信誉期质量。</li>
+</ol>
+<h3>4.3 数据来源与降级方案</h3>
+<table>
+<thead>
+<tr>
+<th>理想态</th>
+<th>现实降级（首版即可用）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>门店 POS / 进销存 API 直连</td>
+<td>导出 Excel 导入，或口述</td>
+</tr>
+<tr>
+<td>摄像头自动巡检</td>
+<td>店主手机拍照</td>
+</tr>
+<tr>
+<td>商品主数据自动同步</td>
+<td>上传同福商品清单表格</td>
+</tr>
+</tbody>
+</table>
+<p><strong>零硬件、零系统对接也能跑</strong>——这是本作品能被百万小店用起来的前提。</p>
+<h3>4.4 可复制性</h3>
+<p>换一个品牌 = 换一套知识库与检查项，<strong>3 天可上线</strong>；智能体与工作流不改。</p>
+<hr />
+<h2>五、应用成效（可验证口径）</h2>
+<p>试点口径：1 个品牌、10 家社区小店、4 周。</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>现状（人工）</th>
+<th>目标</th>
+<th>测量方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单店巡店耗时</td>
+<td>30–40 分钟/次</td>
+<td>≤ 5 分钟</td>
+<td>店主操作计时</td>
+</tr>
+<tr>
+<td>巡店频次</td>
+<td>每月 1 次（或没有）</td>
+<td>每周 1 次</td>
+<td>报告生成记录</td>
+</tr>
+<tr>
+<td>经营诊断报告产出</td>
+<td>0</td>
+<td>每周每家 1 份</td>
+<td>报告数</td>
+</tr>
+<tr>
+<td>缺货率</td>
+<td>基线待测</td>
+<td>下降 20%</td>
+<td>门店盘点数据</td>
+</tr>
+<tr>
+<td>生鲜损耗率</td>
+<td>基线待测</td>
+<td>下降 15%</td>
+<td>报损记录</td>
+</tr>
+<tr>
+<td>店主每周使用时长</td>
+<td>—</td>
+<td>≤ 15 分钟</td>
+<td>平台记录</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>说明：上述为试点目标值，基线在试点首周测得；答辩时用真实前后对比数据替换。</p>
+</blockquote>
+<hr />
+<h2>六、落地路径（与同福的合作闭环）</h2>
+<h3>6.1 角色分工</h3>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>出什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同福集团等供应链企业</td>
+<td>商品库与货源、仓配、门店网络、运营标准（这正是同福「风险先扛、先探路」的能力）</td>
+</tr>
+<tr>
+<td>初芯平台</td>
+<td>大模型接口、知识库、工作流、发布与分发能力</td>
+</tr>
+<tr>
+<td>本作品</td>
+<td>智能体 + 诊断方法论 + 检查项与整改知识库 + 报告体系</td>
+</tr>
+</tbody>
+</table>
+<h3>6.2 三步走</h3>
+<ol>
+<li><strong>10 店试点</strong>（1 个月）：验证「拍照→报告→整改」闭环</li>
+<li><strong>1 个区域 100 店</strong>（3 个月）：跑通同福供货数据对接，形成标准包</li>
+<li><strong>万店复制</strong>（12 个月）：标准包按品牌复制，知识库即标准</li>
+</ol>
+<h3>6.3 商业模式</h3>
+<p>小店低门槛使用（免费版/低价订阅）；同福通过供货与复购获益；平台按调用计费。三方各取所需，不靠小店单独付费起步。</p>
+<hr />
+<h2>七、创新点（答辩三点）</h2>
+<ol>
+<li><strong>零硬件、零学习成本</strong>：一部手机、说几句话，夫妻店就能用——不是又一个要装摄像头的方案。</li>
+<li><strong>内控审计方法论做门店诊断</strong>：有标准、有证据、有缺陷分级、有整改复查闭环，不是「AI 聊天」，报告可对总交付、可追责。</li>
+<li><strong>知识库即标准</strong>：一套智能体 + 可替换知识库，适配不同品牌与业态，天然可复制推广。</li>
+</ol>
+<hr />
+<h2>八、演示脚本（路演 5 分钟）</h2>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>内容</th>
+<th>演示动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:00</td>
+<td>小店困境：不会看、不会算、不会卖</td>
+<td>场景照片/一句话</td>
+</tr>
+<tr>
+<td>0:30</td>
+<td>拍照巡店</td>
+<td>上传货架照片 → 3 秒出问题清单</td>
+</tr>
+<tr>
+<td>1:30</td>
+<td>整改清单</td>
+<td>展示「问题+证据+标准+期限」</td>
+</tr>
+<tr>
+<td>2:00</td>
+<td>算账</td>
+<td>导入一周销量 → 补货单 + 选品建议</td>
+</tr>
+<tr>
+<td>3:00</td>
+<td>卖货</td>
+<td>临期清单 → 促销方案 + 社群话术</td>
+</tr>
+<tr>
+<td>3:30</td>
+<td>经营体检报告</td>
+<td>红黄绿灯 + 下 3 条动作</td>
+</tr>
+<tr>
+<td>4:00</td>
+<td>落地路径</td>
+<td>同福供货 + 初芯平台 + 万店复制</td>
+</tr>
+</tbody>
+</table>
+<p><strong>演示链接要求</strong>：软件方向需「可体验全部功能的使用链接」——发布为初芯可公开访问的智能体，确保评审点开即用、无需后台权限。</p>
+<hr />
+<h2>九、边界与合规</h2>
+<ul>
+<li>不涉及硬件与现场施工，不与任何智能终端绑定。</li>
+<li>AI 给建议，决策权在店主；报告明确标注「AI 辅助诊断，需人工复核」。</li>
+<li>门店经营数据归属与授权在合作协议中约定；照片仅用于本次诊断，不留存超出必要期限。</li>
+</ul>
+<hr />
+<h2>十、提交清单（对照报名表）</h2>
+<table>
+<thead>
+<tr>
+<th>表单字段</th>
+<th>填写内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>报名编号 / 访问码</td>
+<td>（已有则填）</td>
+</tr>
+<tr>
+<td>作品名称</td>
+<td>小店 AI 店长</td>
+</tr>
+<tr>
+<td>技术方向</td>
+<td>软件与 AI 智能体方向</td>
+</tr>
+<tr>
+<td>依托平台</td>
+<td>其他智能体平台（扣子 coze.cn）｜初芯版同步搭建</td>
+</tr>
+<tr>
+<td>适配场景</td>
+<td>经营风险智能诊断（主）+ 门店智能陈列巡检（次）</td>
+</tr>
+<tr>
+<td>解决方案说明文档</td>
+<td>本文档（技术路径 / 适配场景 / 功能描述 / 应用成效 四要素齐全）</td>
+</tr>
+<tr>
+<td>演示环境链接</td>
+<td>扣子智能体公开链接（商店 / Web SDK 页，待生成）</td>
+</tr>
+<tr>
+<td>截止时间</td>
+<td><strong>2026-11-06</strong>（提交截止，务必当日完成）</td>
+</tr>
+</tbody>
+</table>
+</main>
+<div class="footer">「小店 AI 店长」参赛作品 · 解决方案说明 · 2026-11-05</div>
+</body>
+</html>
